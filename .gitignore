@@ -1,0 +1,6 @@
+*.iml
+.gradle
+.idea
+core/build
+local.properties
+core/src/test/fixtures/android_app/userHome/
