@@ -1,6 +1,6 @@
-# bintray-release
+# bintray-publish
 
-Super easy way to release your Android artifacts to bintray.
+Super easy way to publish your Android artifacts to bintray.
 
 ## Adding to project
 
