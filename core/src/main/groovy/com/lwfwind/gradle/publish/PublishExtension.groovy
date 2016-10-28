@@ -8,12 +8,6 @@ class PublishExtension {
     String groupId
     String artifactId
 
-    /**
-     * @deprecated due to conflicts with gradle project.version. replaced by {@link #publishVersion}
-     *  https://github.com/novoda/bintray-publish/issues/43
-     */
-    @Deprecated
-    String version
     String publishVersion;
 
     Map<String, String> versionAttributes = [:]
@@ -22,13 +16,7 @@ class PublishExtension {
 
     String uploadName = ''
 
-    /**
-     * @deprecated due to conflicts with gradle project.description. replaced by {@link #desc}
-     *  https://github.com/novoda/bintray-publish/issues/46
-     */
-    @Deprecated
-    String description
-    String desc
+    String desc = ''
 
     String website = ''
     String issueTracker = ''

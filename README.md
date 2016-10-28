@@ -7,7 +7,7 @@ Super easy way to publish your Android artifacts to bintray.
 To publish a library to bintray using this plugin, add these dependencies to the `build.gradle` of the module that will be published:
 
 ```groovy
-apply plugin: 'com.lwfwind.bintray-publish' // must be applied after your artifact generating plugin (eg. java / com.android.library)
+apply plugin: 'com.lwfwind.bintray-publish'
 
 buildscript {
     repositories {
@@ -34,7 +34,7 @@ publish {
     groupId = 'groupId'
     artifactId = 'artifactId'
     version = 'version'
-    description = 'description'
+    desc = 'description'
     website = "https://github.com/website"
     dryRun = false
 }

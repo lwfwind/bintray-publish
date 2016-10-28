@@ -30,7 +30,7 @@ class TestConfiguration {
             groupId = 'com.lwfwind.demo'
             artifactId = "test"
             publishVersion = project.version
-            description = 'Sample library'
+            desc = 'Sample library'
             dryRun = true
         }
         project.evaluate()
@@ -42,7 +42,7 @@ class TestConfiguration {
             groupId = 'com.lwfwind.demo'
             artifactId = "test-flavors"
             publishVersion = project.version
-            description = 'Sample library'
+            desc = 'Sample library'
             dryRun = true
         }
         flavorProject.evaluate()
