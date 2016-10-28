@@ -1,5 +1,6 @@
-package com.lwfwind.gradle.publish
+package com.lwfwind.gradle.publish.Artifacts
 
+import com.lwfwind.gradle.publish.AndroidLibrary
 import org.gradle.api.Project
 import org.gradle.api.tasks.bundling.Jar
 import org.gradle.api.tasks.javadoc.Javadoc

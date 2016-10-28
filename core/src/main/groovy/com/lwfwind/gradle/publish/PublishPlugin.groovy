@@ -1,6 +1,9 @@
 package com.lwfwind.gradle.publish
 
 import com.jfrog.bintray.gradle.BintrayPlugin
+import com.lwfwind.gradle.publish.Artifacts.AndroidArtifacts
+import com.lwfwind.gradle.publish.Artifacts.Artifacts
+import com.lwfwind.gradle.publish.Artifacts.JavaArtifacts
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.publish.maven.MavenPublication

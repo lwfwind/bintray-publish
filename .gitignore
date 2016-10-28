@@ -1,3 +1,5 @@
 core/build
 local.properties
 core/src/test/fixtures/android_app/userHome/
+.gradle
+.idea

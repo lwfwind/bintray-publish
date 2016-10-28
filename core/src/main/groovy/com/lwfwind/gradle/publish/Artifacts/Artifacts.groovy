@@ -1,4 +1,4 @@
-package com.lwfwind.gradle.publish;
+package com.lwfwind.gradle.publish.Artifacts;
 
 import org.gradle.api.Project
 
