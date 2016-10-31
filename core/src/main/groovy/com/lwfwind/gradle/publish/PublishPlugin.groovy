@@ -6,7 +6,11 @@ import com.lwfwind.gradle.publish.Artifacts.Artifacts
 import com.lwfwind.gradle.publish.Artifacts.JavaArtifacts
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.invocation.Gradle
 import org.gradle.api.publish.maven.MavenPublication
+
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 class PublishPlugin implements Plugin<Project> {
 
@@ -24,20 +28,29 @@ class PublishPlugin implements Plugin<Project> {
         if (project.plugins.hasPlugin('com.android.library')) {
             project.android.libraryVariants.each { variant ->
                 if (!variant.buildType.debuggable) {
-                    def artifactId = project.name;
                     if (variant.productFlavors.size() > 0) {
-                        artifactId += '-' + variant.productFlavors.collect { it.name }.join("-")
+                        println(project.publish.currentFlavor)
+                        if (variant.name.toLowerCase().contains(project.publish.currentFlavor.toLowerCase())) {
+                            project.publish.publications[0] = variant.name
+                            addArtifact(project, variant.name, project.publish.artifactId, new AndroidArtifacts(variant));
+                            return true //break
+                         }
                     }
-                    addArtifact(project, variant.name, artifactId, new AndroidArtifacts(variant));
+                    else {
+                        project.publish.publications[0] = variant.name
+                        addArtifact(project, variant.name, project.publish.artifactId, new AndroidArtifacts(variant));
+                    }
                 }
             }
         } else {
+            project.publish.publications[0] = 'maven'
             addArtifact(project, 'maven', project.publish.artifactId, new JavaArtifacts())
         }
     }
 
 
     void addArtifact(Project project, String name, String artifact, Artifacts artifacts) {
+        project.logger.info("publication name:$name")
         PropertyFinder propertyFinder = new PropertyFinder(project, project.publish)
         project.publishing.publications.create(name, MavenPublication) {
             groupId project.publish.groupId

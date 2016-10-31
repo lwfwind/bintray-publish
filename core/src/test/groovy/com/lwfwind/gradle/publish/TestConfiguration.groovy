@@ -22,8 +22,9 @@ class TestConfiguration {
 
     @BeforeClass
     public static void setup() {
-        project = LibProjectFactory.createFromFixture()
         PublishPlugin plugin = new PublishPlugin()
+
+        project = LibProjectFactory.createFromFixture()
         plugin.apply(project)
         project.publish {
             userOrg = 'lwfwind'
@@ -40,9 +41,10 @@ class TestConfiguration {
         flavorProject.publish {
             userOrg = 'lwfwind'
             groupId = 'com.lwfwind.demo'
-            artifactId = "test-flavors"
-            publishVersion = project.version
+            artifactId = "test-flavor1"
+            publishVersion = flavorProject.version
             desc = 'Sample library'
+            currentFlavor = 'flavor2'
             dryRun = true
         }
         flavorProject.evaluate()
@@ -51,8 +53,6 @@ class TestConfiguration {
 
     @AfterClass
     static void tearDown() {
-        project.buildDir.deleteDir();
-
         // delete folders generated during project evaluation
         new File("${FIXTURE_WORKING_DIR}/userHome").deleteDir()
         new File("${FIXTURE_WORKING_DIR}/.gradle").deleteDir()
@@ -73,6 +73,7 @@ class TestConfiguration {
     }
 
     private static void testGeneratedPomFileForVariantPublicationTask(Project project, String variantName, String artifactId, String publicationName) {
+
         Task task = project.getTasks().findByPath(":generatePomFileFor${variantName}Publication")
         assertThat(task).isNotNull()
 
@@ -104,8 +105,17 @@ class TestConfiguration {
     public void testProjectHasBintrayUploadTask() {
         Task task = project.getTasks().findByPath(":bintrayUpload")
         assertThat(task).isNotNull()
-
-        // there is nothing to unit test because all the magic happens in a build listener
-        //    that is added in the BintrayPlugin
+        task.getDependsOn().each {dep ->
+            if (dep != null) {
+                println(dep.path)
+            }
+        }
+        Task task2 = flavorProject.getTasks().findByPath(":bintrayUpload")
+        assertThat(task2).isNotNull()
+        task2.getDependsOn().each {dep ->
+            if (dep != null) {
+                println(dep.path)
+            }
+        }
     }
 }

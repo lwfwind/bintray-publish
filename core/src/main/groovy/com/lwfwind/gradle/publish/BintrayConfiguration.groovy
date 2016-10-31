@@ -1,5 +1,6 @@
 package com.lwfwind.gradle.publish
 
+import com.lwfwind.gradle.publish.Artifacts.AndroidArtifacts
 import org.gradle.api.Project
 
 class BintrayConfiguration {
@@ -19,9 +20,7 @@ class BintrayConfiguration {
             publish = extension.autoPublish
             dryRun = propertyFinder.getDryRun()
 
-            publications = extension.publications ?: project.plugins.hasPlugin('com.android.library') ? project.android.libraryVariants.collect {
-                it.name
-            } : ['maven']
+            publications = extension.publications
 
             pkg {
                 repo = extension.repoName

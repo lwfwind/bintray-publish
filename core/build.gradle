@@ -29,9 +29,9 @@ publish {
     userOrg = 'lwfwind'
     groupId = 'com.lwfwind'
     artifactId = rootProject.name
-    version = project.version
+    publishVersion = project.version
     desc = 'easy way to publish your android artifacts to bintray'
     website = "https://github.com/lwfwind/${rootProject.name}"
-    dryRun = true
+    dryRun = false
 }
 

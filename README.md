@@ -14,7 +14,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.lwfwind:bintray-publish:1.1'
+        classpath 'com.lwfwind:bintray-publish:1.3'
     }
 }
 ```
@@ -33,7 +33,7 @@ publish {
     userOrg = 'userOrg'
     groupId = 'groupId'
     artifactId = 'artifactId'
-    version = 'version'
+    publishVersion = 'version'
     desc = 'description'
     website = "https://github.com/website"
     dryRun = false
