@@ -14,7 +14,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.lwfwind:bintray-publish:1.4'
+        classpath 'com.lwfwind:bintray-publish:1.5'
     }
 }
 ```
