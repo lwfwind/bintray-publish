@@ -6,10 +6,18 @@ import com.lwfwind.gradle.publish.Artifacts.JavaArtifacts
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.publish.maven.MavenPublication
+import org.gradle.api.tasks.javadoc.Javadoc
 
 class PublishPlugin implements Plugin<Project> {
 
     void apply(Project project) {
+        project.tasks.withType(Javadoc) {
+            options {
+                encoding "UTF-8"
+                charSet 'UTF-8'
+                links "http://docs.oracle.com/javase/7/docs/api"
+            }
+        }
         project.extensions.create('publish', PublishExtension)
         project.afterEvaluate {
             project.apply([plugin: 'maven-publish'])
