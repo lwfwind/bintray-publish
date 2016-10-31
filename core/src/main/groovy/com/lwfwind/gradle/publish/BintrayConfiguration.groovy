@@ -1,6 +1,5 @@
 package com.lwfwind.gradle.publish
 
-import com.lwfwind.gradle.publish.Artifacts.AndroidArtifacts
 import org.gradle.api.Project
 
 class BintrayConfiguration {

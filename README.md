@@ -14,7 +14,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.lwfwind:bintray-publish:1.3'
+        classpath 'com.lwfwind:bintray-publish:1.4'
     }
 }
 ```
@@ -41,3 +41,24 @@ publish {
 ```
 
 Finally, use the task `bintrayUpload` to publish (make sure you build the project first!):
+
+## productFlavors usage
+
+Add currentFlavor = 'flavorName' to `publish` closure
+
+```groovy
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+publish {
+    bintrayUser = properties.getProperty("bintray.user")
+    bintrayKey = properties.getProperty("bintray.apikey")
+    userOrg = 'userOrg'
+    groupId = 'groupId'
+    artifactId = 'artifactId'
+    publishVersion = 'version'
+    desc = 'description'
+    website = "https://github.com/website"
+	currentFlavor = 'flavorName'
+    dryRun = false
+}
+```

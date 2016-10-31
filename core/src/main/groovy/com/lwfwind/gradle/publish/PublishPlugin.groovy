@@ -1,26 +1,20 @@
 package com.lwfwind.gradle.publish
 
-import com.jfrog.bintray.gradle.BintrayPlugin
 import com.lwfwind.gradle.publish.Artifacts.AndroidArtifacts
 import com.lwfwind.gradle.publish.Artifacts.Artifacts
 import com.lwfwind.gradle.publish.Artifacts.JavaArtifacts
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.invocation.Gradle
 import org.gradle.api.publish.maven.MavenPublication
-
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 
 class PublishPlugin implements Plugin<Project> {
 
     void apply(Project project) {
-        PublishExtension extension = project.extensions.create('publish', PublishExtension)
+        project.extensions.create('publish', PublishExtension)
         project.afterEvaluate {
             project.apply([plugin: 'maven-publish'])
             attachArtifacts(project)
             new BintrayPlugin().apply(project)
-            new BintrayConfiguration(extension).configure(project)
         }
     }
 
@@ -29,14 +23,12 @@ class PublishPlugin implements Plugin<Project> {
             project.android.libraryVariants.each { variant ->
                 if (!variant.buildType.debuggable) {
                     if (variant.productFlavors.size() > 0) {
-                        println(project.publish.currentFlavor)
                         if (variant.name.toLowerCase().contains(project.publish.currentFlavor.toLowerCase())) {
                             project.publish.publications[0] = variant.name
                             addArtifact(project, variant.name, project.publish.artifactId, new AndroidArtifacts(variant));
                             return true //break
-                         }
-                    }
-                    else {
+                        }
+                    } else {
                         project.publish.publications[0] = variant.name
                         addArtifact(project, variant.name, project.publish.artifactId, new AndroidArtifacts(variant));
                     }

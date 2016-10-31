@@ -41,7 +41,7 @@ class TestConfiguration {
         flavorProject.publish {
             userOrg = 'lwfwind'
             groupId = 'com.lwfwind.demo'
-            artifactId = "test-flavor1"
+            artifactId = "test-flavor2"
             publishVersion = flavorProject.version
             desc = 'Sample library'
             currentFlavor = 'flavor2'
@@ -69,10 +69,11 @@ class TestConfiguration {
     @Test
     public void testGeneratedPomFileForMavenPublicationTask() {
         testGeneratedPomFileForVariantPublicationTask(project, "Release", "test", "release");
-        testGeneratedPomFileForVariantPublicationTask(flavorProject, "Flavor1Release", "test-flavor1", "flavor1Release");
+        testGeneratedPomFileForVariantPublicationTask(flavorProject, "Flavor2Release", "test-flavor2", "flavor2Release");
     }
 
-    private static void testGeneratedPomFileForVariantPublicationTask(Project project, String variantName, String artifactId, String publicationName) {
+    private
+    static void testGeneratedPomFileForVariantPublicationTask(Project project, String variantName, String artifactId, String publicationName) {
 
         Task task = project.getTasks().findByPath(":generatePomFileFor${variantName}Publication")
         assertThat(task).isNotNull()
@@ -102,20 +103,20 @@ class TestConfiguration {
     }
 
     @Test
-    public void testProjectHasBintrayUploadTask() {
+    public void testProjectHasBintrayUploadAndDependTasks() {
         Task task = project.getTasks().findByPath(":bintrayUpload")
         assertThat(task).isNotNull()
-        task.getDependsOn().each {dep ->
-            if (dep != null) {
-                println(dep.path)
-            }
+        Set<? extends Task> depTasks = task.getTaskDependencies().getDependencies(task)
+        for (Task depTask : depTasks) {
+            println(depTask.name)
         }
-        Task task2 = flavorProject.getTasks().findByPath(":bintrayUpload")
-        assertThat(task2).isNotNull()
-        task2.getDependsOn().each {dep ->
-            if (dep != null) {
-                println(dep.path)
-            }
+        assert depTasks.contains(project.tasks.findByPath(":publishReleasePublicationToMavenLocal"))
+        Task flavorTask = flavorProject.getTasks().findByPath(":bintrayUpload")
+        assertThat(flavorTask).isNotNull()
+        Set<? extends Task> depFlavorTasks = flavorTask.getTaskDependencies().getDependencies(flavorTask)
+        for (Task depTask : depFlavorTasks) {
+            println(depTask.name)
         }
+        assert depFlavorTasks.contains(flavorProject.tasks.findByPath(":publishFlavor2ReleasePublicationToMavenLocal"))
     }
 }
